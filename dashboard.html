@@ -3,33 +3,47 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Referral Dashboard</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
 
 <div class="dashboard">
 
-<h1>Referral Dashboard</h1>
+  <div class="dashboard-header">
+    <h1>Referral Dashboard</h1>
+    <p>Track your earnings and referrals</p>
+  </div>
 
-<div class="stats">
+  <div class="stats-grid">
+    
+    <div class="card">
+      <h3>Total Earnings</h3>
+      <div class="value">$0</div>
+    </div>
 
-<div class="box">
-<h3>Total Earnings</h3>
-<p id="earnings">$0</p>
-</div>
+    <div class="card">
+      <h3>Artists Referred</h3>
+      <div class="value">0</div>
+    </div>
 
-<div class="box">
-<h3>Artists Referred</h3>
-<p id="artists">0</p>
-</div>
-<div class="box">
-<h3>Your Referral Code</h3>
-<p id="code">---</p>
-</div>
+    <div class="card referral-box">
+      <h3>Your Referral Code</h3>
+      <div class="code">HdwFMI</div>
+    </div>
 
-</div>
+  </div>
 
-<button class="withdraw" onclick="withdraw()">Request Withdrawal</button>
+  <div class="card withdraw-card">
+    <h3>Withdraw Earnings</h3>
+
+    <button class="btn btn-disabled">
+      Request Withdrawal
+    </button>
+
+    <div class="notice">
+      Minimum withdrawal amount is <strong>50 GHS</strong>
+    </div>
+  </div>
 
 </div>
 
