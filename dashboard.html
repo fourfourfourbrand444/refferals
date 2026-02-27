@@ -15,19 +15,21 @@
   </div>
 
   <div class="stats-grid">
-    
+
     <div class="card">
       <h3>Total Earnings</h3>
       <div class="value" id="earnings">$0</div>
-      
+    </div>
+
     <div class="card">
       <h3>Artists Referred</h3>
       <div class="value" id="artists">0</div>
+    </div>
 
     <div class="card referral-box">
       <h3>Your Referral Code</h3>
       <div class="code" id="code">Pending.....</div>
-
+    </div>
 
   </div>
 
@@ -35,7 +37,7 @@
     <h3>Withdraw Earnings</h3>
 
     <button class="btn btn-disabled" onclick="goToWithdrawal()">
-  Request Withdrawal
+      Request Withdrawal
     </button>
 
     <div class="notice">
@@ -44,15 +46,14 @@
   </div>
 
 </div>
-  
+
 <script>
 function goToWithdrawal(){
   window.location.href = "https://444music-distribution.vercel.app/withdrawal.html"; 
 }
 </script>
-  
-<script type="module">
 
+<script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth,onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore,doc,getDoc,addDoc,collection } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -65,42 +66,36 @@ const firebaseConfig = {
   messagingSenderId: "234260994975",
   appId: "1:234260994975:web:d8866dc96ac07fb9f7fbaa"
 };
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore();
 
 onAuthStateChanged(auth, async(user)=>{
+  if(user){
+    const docRef = doc(db,"users",user.uid);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
 
-if(user){
-
-const docRef = doc(db,"users",user.uid);
-const docSnap = await getDoc(docRef);
-const data = docSnap.data();
-
-document.getElementById("earnings").innerText="$"+data.totalEarnings;
-document.getElementById("artists").innerText=data.artistsReferred;
-document.getElementById("code").innerText=data.referralCode;
-
-}
-
+    document.getElementById("earnings").innerText = "$" + data.totalEarnings;
+    document.getElementById("artists").innerText = data.artistsReferred;
+    document.getElementById("code").innerText = data.referralCode;
+  }
 });
 
 window.withdraw = async function(){
+  const user = auth.currentUser;
+  await addDoc(collection(db,"withdrawals"),{
+    userId:user.uid,
+    status:"pending",
+    date:new Date()
+  });
 
-const user = auth.currentUser;
-await addDoc(collection(db,"withdrawals"),{
-userId:user.uid,
-status:"pending",
-date:new Date()
-});
-
-alert("Withdrawal request submitted");
-
+  alert("Withdrawal request submitted");
 }
-
 </script>
-  <script type="module">
 
+<script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
@@ -121,8 +116,7 @@ onAuthStateChanged(auth, (user) => {
     window.location.href = "login.html";
   }
 });
-
-  </script>
+</script>
 
 </body>
 </html>
