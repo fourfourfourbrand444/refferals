@@ -95,6 +95,30 @@ alert("Withdrawal request submitted");
 }
 
 </script>
+  <script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA5ZbS9myFyvj1SACJnCYFsvwT_g2XqTIs",
+  authDomain: "referral-system-a1ee6.firebaseapp.com",
+  projectId: "referral-system-a1ee6",
+  storageBucket: "referral-system-a1ee6.firebasestorage.app",
+  messagingSenderId: "234260994975",
+  appId: "1:234260994975:web:d8866dc96ac07fb9f7fbaa"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+  }
+});
+
+  </script>
 
 </body>
 </html>
