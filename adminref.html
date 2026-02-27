@@ -52,6 +52,9 @@ async function loadUsers() {
         <label>Total Earnings</label>
         <input id="earnings-${userDoc.id}" type="number" value="${data.totalEarnings || 0}">
 
+         <label>Referral Code</label>
+<input id="code-${userDoc.id}" value="${data.referralCode || ""}">
+
         <button onclick="updateUser('${userDoc.id}')">Update User</button>
       </div>
     `;
@@ -63,13 +66,15 @@ window.updateUser = async function(id) {
   const balance = Number(document.getElementById(`balance-${id}`).value);
   const artists = Number(document.getElementById(`artists-${id}`).value);
   const earnings = Number(document.getElementById(`earnings-${id}`).value);
-
+  const referralCode = document.getElementById(`code-${id}`).value;
+  
   await updateDoc(doc(db, "users", id), {
-    email: email,
-    balance: balance,
-    artistsReferred: artists,
-    totalEarnings: earnings
-  });
+  email: email,
+  balance: balance,
+  artistsReferred: artists,
+  totalEarnings: earnings,
+  referralCode: referralCode
+});
 alert("User updated successfully");
 };
 
