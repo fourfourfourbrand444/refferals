@@ -18,26 +18,24 @@
     
     <div class="card">
       <h3>Total Earnings</h3>
-      <div class="value">$0</div>
-    </div>
-
+      <div class="value" id="earnings">$0</div>
+      
     <div class="card">
       <h3>Artists Referred</h3>
-      <div class="value">0</div>
-    </div>
+      <div class="value" id="artists">0</div>
 
     <div class="card referral-box">
       <h3>Your Referral Code</h3>
-      <div class="code">HdwFMI</div>
-    </div>
+      <div class="code" id="code">Pending.....</div>
+
 
   </div>
 
   <div class="card withdraw-card">
     <h3>Withdraw Earnings</h3>
 
-    <button class="btn btn-disabled">
-      Request Withdrawal
+    <button class="btn btn-disabled" onclick="goToWithdrawal()">
+  Request Withdrawal
     </button>
 
     <div class="notice">
@@ -46,7 +44,13 @@
   </div>
 
 </div>
-
+  
+<script>
+function goToWithdrawal(){
+  window.location.href = "https://444music-distribution.vercel.app/withdrawal.html"; 
+}
+</script>
+  
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
