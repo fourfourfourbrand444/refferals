@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>444Music Admin Panel</title>
+<link rel="stylesheet" href="adminref.css">
+</head>
+<body>
+
+<h1>444Music Referral Admin</h1>
+
+<div id="usersContainer"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA5ZbS9myFyvj1SACJnCYFsvwT_g2XqTIs",
+  authDomain: "referral-system-a1ee6.firebaseapp.com",
+  projectId: "referral-system-a1ee6",
+  storageBucket: "referral-system-a1ee6.firebasestorage.app",
+  messagingSenderId: "234260994975",
+  appId: "1:234260994975:web:d8866dc96ac07fb9f7fbaa"
+};
+ const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const usersContainer = document.getElementById("usersContainer");
+
+async function loadUsers() {
+  const querySnapshot = await getDocs(collection(db, "users"));
+
+  usersContainer.innerHTML = "";
+
+  querySnapshot.forEach((userDoc) => {
+    const data = userDoc.data();
+
+    usersContainer.innerHTML += `
+      <div class="user-card">
+        <h3>${data.name || "User"}</h3>
+
+        <label>Email</label>
+        <input id="email-${userDoc.id}" value="${data.email || ""}">
+
+        <label>Balance</label>
+        <input id="balance-${userDoc.id}" type="number" value="${data.balance || 0}">
+ <label>Artists Referred</label>
+        <input id="artists-${userDoc.id}" type="number" value="${data.artistsReferred || 0}">
+
+        <label>Total Earnings</label>
+        <input id="earnings-${userDoc.id}" type="number" value="${data.totalEarnings || 0}">
+
+        <button onclick="updateUser('${userDoc.id}')">Update User</button>
+      </div>
+    `;
+  });
+}
+
+window.updateUser = async function(id) {
+  const email = document.getElementById(`email-${id}`).value;
+  const balance = Number(document.getElementById(`balance-${id}`).value);
+  const artists = Number(document.getElementById(`artists-${id}`).value);
+  const earnings = Number(document.getElementById(`earnings-${id}`).value);
+
+  await updateDoc(doc(db, "users", id), {
+    email: email,
+    balance: balance,
+    artistsReferred: artists,
+    totalEarnings: earnings
+  });
+alert("User updated successfully");
+};
+
+loadUsers();
+</script>
+
+</body>
+</html>
