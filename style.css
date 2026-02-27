@@ -41,11 +41,13 @@ color:white;
 .hero{
 display:flex;
 align-items:center;
-justify-content:space-between;
-padding:80px 8%;
-flex-wrap:wrap;
+justify-content:center;
+flex-direction:column;
+text-align:center;
+padding:60px 20px 40px;
+max-width:900px;
+margin:auto;
 }
-
 .hero-text{
 max-width:500px;
 animation:fadeUp 1s ease;
@@ -75,6 +77,8 @@ padding-top:40px;
 }
 .hero p{
 color:#bbb;
+margin-top:10px;
+line-height:1.5;
 }
 
 .highlight{
@@ -128,9 +132,11 @@ font-weight:600;
 }
 
 .hero-image img{
-width:420px;
+width:100%;
+max-width:500px;
 border-radius:15px;
 box-shadow:0 0 40px rgba(168,85,247,0.5);
+margin-top:25px;
 }
 
 /* Stats */
