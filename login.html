@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login • 444 Referral System</title>
+<link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>444 Referral System</h1>
+  <p class="subtitle">Login to your referral dashboard</p>
+
+  <div class="card">
+
+    <input type="email" id="loginEmail" placeholder="Email" required>
+    <input type="password" id="loginPassword" placeholder="Password" required>
+
+    <button class="btn" onclick="loginUser()">Login</button>
+
+    <div class="divider">OR</div>
+
+    <a href="index.html" class="login-btn">Create Account</a>
+
+  </div>
+
+</div>
+
+<script type="module">
+
+// Firebase SDK
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { 
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+// YOUR FIREBASE CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyA5ZbS9myFyvj1SACJnCYFsvwT_g2XqTIs",
+  authDomain: "referral-system-a1ee6.firebaseapp.com",
+  projectId: "referral-system-a1ee6",
+  storageBucket: "referral-system-a1ee6.firebasestorage.app",
+  messagingSenderId: "234260994975",
+  appId: "1:234260994975:web:d8866dc96ac07fb9f7fbaa"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// LOGIN
+window.loginUser = function () {
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      window.location.href = "dashboard.html";
+    })
+    .catch(() => {
+      alert("Account not found. Please create an account first.");
+    });
+};
+
+// AUTO LOGIN
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    window.location.href = "dashboard.html";
+  }
+});
+
+</script>
+
+</body>
+</html>
+
