@@ -44,43 +44,56 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth();
-const db = getFirestore();
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-window.signup = async function(){
+window.signup = async function() {
+  try {
 
-const name = document.getElementById("name").value;
-const email = document.getElementById("email").value;
-const password = document.getElementById("password").value;
-const referral = document.getElementById("referral").value;
-const userCred = await createUserWithEmailAndPassword(auth,email,password);
-const user = userCred.user;
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const referral = document.getElementById("referral").value;
 
-await updateProfile(user,{displayName:name});
+    if (!name || !email || !password) {
+      alert("Please fill all required fields");
+      return;
+    }
 
-await setDoc(doc(db,"users",user.uid),{
-name:name,
-email:email,
-referralCode:user.uid.slice(0,6),
-referredBy:referral || null,
-totalEarnings:0,
-artistsReferred:0,
-balance:0
-});
+    const userCred = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCred.user;
 
-<button class="login-btn" onclick="window.location.href='login.html'">
-Login Instead
-</button>
-}
+    await updateProfile(user, { displayName: name });
 
-window.login = async function(){
+    await setDoc(doc(db, "users", user.uid), {
+      name: name,
+      email: email,
+      referralCode: user.uid.slice(0, 6),
+      referredBy: referral || null,
+      totalEarnings: 0,
+      artistsReferred: 0,
+      balance: 0
+    });
 
-const email = document.getElementById("email").value;
-const password = document.getElementById("password").value;
+    alert("Account created successfully!");
+    window.location.href = "dashboard.html";
 
-await signInWithEmailAndPassword(auth,email,password);
-window.location.href="dashboard.html";
-}
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+window.login = async function() {
+  try {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    await signInWithEmailAndPassword(auth, email, password);
+    window.location.href = "dashboard.html";
+  } catch (error) {
+    alert(error.message);
+  }
+};
 
 </script>
 
